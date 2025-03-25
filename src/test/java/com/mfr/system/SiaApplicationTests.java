@@ -1,4 +1,4 @@
-package com.ta.sia;
+package com.mfr.system;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
