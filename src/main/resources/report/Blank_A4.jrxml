@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Simple_Blue" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="07df6276-c15d-47e0-914e-fceb09756cbb">
+	<field name="nomor" class="java.lang.String"></field>
+	<field name="nama" class="java.lang.String"></field>
+	<field name="parent" class="com.ta.sia.entity.Rekening"></field>
+	<field name="saldo" class="java.lang.Long"></field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="5ab0fa4f-5bf4-4fe6-b940-05daf18f0c6f"/>
+				<staticText>
+					<reportElement x="20" y="20" width="555" height="43" forecolor="#FFFFFF" uuid="0522a745-e0a7-4851-8f23-de5418208d8b"/>
+					<textElement textAlignment="Center">
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NERACA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="20" y="63" width="555" height="20" forecolor="#FFFFFF" uuid="6df1c47e-5137-4395-ac01-e7973b430bef"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[CV. Starline]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="e3e8bad3-2153-470b-9db0-84c7ac345bd7"/>
+			</line>
+			
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			
+			<textField>
+				<reportElement x="0" y="0" width="58" height="20" uuid="c6fc74f8-147b-4648-9d70-fdd97f5a70d7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6514833e-910a-4ed1-9b15-d0aa1217960d"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomor}]]></textFieldExpression>
+			</textField>
+			<textField>
+			
+				ERROR!!!
+			
+				<reportElement x=""+<![CDATA[$F{indent}]]>+"" y="0" width="138" height="20" uuid="2ab5db7f-e4ce-4345-b906-c4bd54c3d92a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6e17c5e3-bbe2-4fa7-868d-3607b4ed4dae"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="414" y="0" width="138" height="20" uuid="1d36fe9f-325f-4510-b03c-25d953e3e701">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eb184477-88fa-4c9b-90d2-771f347855f2"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="d15909c5-520e-4b70-9a8c-54b0dbea7348"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="3c73853d-439f-4c80-809d-09018c1386df"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="7e6d98d8-ac39-407e-9c99-93c458f06cd2"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

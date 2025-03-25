@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <form class="forms-sample" method="post" th:action="@{'/api/rekening'}" id="modal-form">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="notif"></div>
+              <div class="form-group">
+                <label for="id">Nomor</label>
+                <input type="text" class="form-control" name="id" id="id" placeholder="id">
+              </div>
+              <input type="hidden" name="parent" id="parent">
+              <div class="form-group">
+                <label for="rekening">Rekening</label>
+                <input type="text" class="form-control" name="text" id="text" placeholder="Rekening">
+              </div>
+              <div class="form-group">
+                <label for="jenis">Jenis</label>
+                <select name="jenis" id="jenis" class="form-control">
+                  <option value="aktiva">Aktiva</option>
+                  <option value="utang">Utang</option>
+                  <option value="modal">Modal</option>
+                  <option value="pendapatan">Pendapatan</option>
+                  <option value="beban">Beban</option>
+                  <option value="hpp">HPP</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="saldo">Saldo</label>
+                <input type="text" class="form-control" name="saldo" id="saldo" placeholder="Saldo">
+              </div>
+              <!-- <input type="hidden" id="csrf1" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
+            </div>
+            <div class="modal-footer">
+              <img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <form class="card-body" method="post" th:action="@{'/rekening/saveAll'}" th:object="${rekening}">
+                    <h4 class="card-title">Rekening</h4>
+                    <button class="btn btn-inverse-primary" id="btn-tambah">
+                      Simpan
+                    </button>
+                    <div class="table-responsive pr-5 pt-3">
+                      <table class="table">
+	                      <thead>
+		                     <tr>
+		                      	<th>Rekening</th>
+		                      	<th>Jenis</th>
+		                      	<th>Saldo</th>
+		                     </tr>
+	                      </thead>
+	                      <tbody>
+		                     <tr th:each="row, a : ${rekening}">
+		                      	<td th:text="${row.nama}"></td>
+		                      	<td th:text="${row.jenis}"></td>
+		                      	<td>
+		                      		<input type="hidden" class="form-control" th:value="${rekening[__${a.index}__].id}"  th:name="id">
+		                      		<input type="number" class="form-control" th:value="${rekening[__${a.index}__].saldoAwal}"  th:name="saldoAwal">
+		                      	</td>
+		                     </tr> 
+	                      </tbody>
+                      </table>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script th:src="@{'/treeview2/dist/jstree.min.js'}"></script>
+
+    
+    <!-- End custom js for this page -->
+  </body>
+</html>

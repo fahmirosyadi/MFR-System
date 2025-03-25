@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pengaturan Rekening</h4>
+                      <form th:object="${setting}" th:action="@{'/setting/rekening'}" method="post">
+                     	  <div id="notif"></div>
+			              <input type="hidden" class="form-control" th:field="*{id}">
+			              <div class="form-group">
+			                <label for="id">Rekening Pembelian</label>
+							<select class="form-control" th:field="*{rekPembelian}">
+								<option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+							</select>
+			              </div>
+			              <div class="form-group">
+			                <label for="id">Rekening Penjualan</label>
+							<select class="form-control" th:field="*{rekPenjualan}">
+								<option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+							</select>
+			              </div>
+			              <div class="form-group">
+			                <label for="id">Rekening Pelunasan Utang</label>
+							<select class="form-control" th:field="*{rekPelunasanUtang}">
+								<option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+							</select>
+			              </div>
+			              <div class="form-group">
+			                <label for="id">Rekening Pelunasan Piutang</label>
+							<select class="form-control" th:field="*{rekPelunasanPiutang}">
+								<option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+							</select>
+			              </div>
+			              <div class="form-group">
+			                <label for="id">Rekening Laba ditahan</label>
+							<select class="form-control" th:field="*{rekLabaDitahan}">
+								<option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+							</select>
+			              </div>
+			              <div class="form-group">
+			                <label for="id">Rekening Laba Tahun Berjalan</label>
+							<select class="form-control" th:field="*{rekLabaTahunBerjalan}">
+								<option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+							</select>
+			              </div>
+			              <button class="btn btn-primary">Simpan</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script th:src="@{'/treeview2/dist/jstree.min.js'}"></script>
+
+    
+    <!-- End custom js for this page -->
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    	<form class="forms-sample" method="post" th:action="@{'/api/stok'}" id="modal-form">
+	      <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	          </div>
+	          <div class="modal-body">
+	          	<div id="notif"></div>
+	          	<input type="hidden" id="id" name="id">
+              <input type="hidden" id="persediaan" th:value="${persediaan}" name="persediaan">
+	            <div class="form-group">
+	                <label for="harga">Harga</label>
+	                <input type="text" class="form-control" id="harga" placeholder="Harga" name="harga">
+	            </div>
+              <div class="form-group">
+                  <label for="jumlah">Jumlah</label>
+                  <input type="text" class="form-control" id="jumlah" placeholder="Jumlah" name="jumlah">
+              </div>
+	          </div>
+	          <div class="modal-footer">
+	          	<img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+	            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	            <button type="button" id="btn-simpan" class="btn btn-primary">Save</button>
+	          </div>
+	        </div>
+	      </div>
+    	</form>
+    </div>
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Stok</h4>
+                    <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#exampleModalCenter" id="btn-tambah">
+                      Tambah Data
+                    </button>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th rowspan="2" style="vertical-align:middle;">Tanggal</th>
+                            <th rowspan="2" style="vertical-align:middle;">Keterangan</th>
+                            <th colspan="3" style="vertical-align:middle;" class="text-center">Masuk</th>
+                            <th colspan="3" style="vertical-align:middle;" class="text-center">Keluar</th>
+                            <th colspan="3" style="vertical-align:middle;" class="text-center">Saldo</th>
+                          </tr>
+                          <tr>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Total</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Total</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          <div th:each="row, i : ${fifo}">
+                          	<tr>
+	                          <td th:text="${row.tanggal}"></td>
+	                          <td th:text="${row.keterangan}"></td>
+	                          <td th:text="${row.qtyBeli}"></td>
+	                          <td th:text="${row.hargaBeli}"></td>
+	                          <td th:text="${row.qtyBeli * row.hargaBeli}"></td>
+	                          <td th:text="${row.qtyJual}"></td>
+	                          <td th:text="${row.hargaJual}"></td>
+	                          <td th:text="${row.qtyJual * row.hargaJual}"></td>
+	                          <div th:if="${row.stokDetails.size() > 0}">
+	                          	<td th:text="${row.stokDetails[0].qty}"></td>
+	                          	<td th:text="${row.stokDetails[0].harga}"></td>
+	                          	<td th:text="${row.stokDetails[0].qty * row.stokDetails[0].harga}"></td>
+	                          </div>
+	                          <div th:if="${row.stokDetails.size() <= 0}">
+	                          	<td></td>
+	                          	<td></td>
+	                          	<td></td>
+	                          </div>
+	                        </tr>
+                          <div th:each="row2, j : ${row.stokDetails}">
+	                        <tr th:if="${j.index > 0}">
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td th:text="${row2.qty}"></td>
+	                          <td th:text="${row2.harga}"></td>
+	                          <td th:text="${row2.qty * row2.harga}"></td>
+	                        </tr>
+	                      </div>
+	                      </div>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script type="text/javascript">
+      let mf = new MyFetch();
+      let id = document.getElementById('id');
+      let persediaan = document.getElementById('persediaan');
+      let harga = document.getElementById('harga');
+      let jumlah = document.getElementById('jumlah');
+      let btnTambah = document.getElementById('btn-tambah');
+      let btnSimpan = document.getElementById('btn-simpan');
+      let notif = document.getElementById('notif');
+
+      function isi(data){
+        let tbody = document.getElementById('tbody');
+        tbody.innerHTML = "";
+        for (let i = 0; i < data.length; i++) {
+            let data1 = data[i];
+            for(let j = 0; j < data1.stokDetails.length; j++){
+            	if(j == 0){
+            		tbody.innerHTML += `
+                        <tr>
+                          <td>${data1.tanggal}</td>
+                          <td>${data1.keterangan}</td>
+                          <td>${Number(data1.qtyBeli).toLocaleString()}</td>
+                          <td>${Number(data1.hargaBeli).toLocaleString()}</td>
+                          <td>${Number(data1.qtyBeli * data[i].hargaBeli).toLocaleString()}</td>
+                          <td>${Number(data1.qtyJual).toLocaleString()}</td>
+                          <td>${Number(data1.hargaJual).toLocaleString()}</td>
+                          <td>${Number(data1.qtyJual * data[i].hargaJual).toLocaleString()}</td>
+                          <td>${Number(data1.stokDetails[j].qty).toLocaleString()}</td>
+                          <td>${Number(data1.stokDetails[j].harga).toLocaleString()}</td>
+                          <td>${Number(data1.stokDetails[j].qty * data1.stokDetails[j].harga).toLocaleString()}</td>
+                        </tr>
+                    `;	
+            	}else{
+            		tbody.innerHTML += `
+                        <tr>	
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>${Number(data1.stokDetails[j].qty).toLocaleString()}</td>
+                          <td>${Number(data1.stokDetails[j].harga).toLocaleString()}</td>
+                          <td>${Number(data1.stokDetails[j].qty * data1.stokDetails[j].harga).toLocaleString()}</td>
+                        </tr>
+                    `;
+            	}
+            }
+            
+            
+        }
+      }
+      async function loadData(){
+        let data = await mf.getData(`/api/stok/persediaan/${persediaan.value}/FIFO`);
+        
+      }
+
+      btnTambah.addEventListener('click',function() {
+      	id.value = "";
+        harga.value = "";
+        jumlah.value = "";
+        notif.innerHTML = "";
+      })
+
+      document.addEventListener('click', async function(e){
+        if (e.target.classList.contains('btn-edit')) {
+          let idStok = e.target.dataset.id;
+          let data = await mf.getData(`/api/stok/${idStok}`);
+          data = data.data;
+          id.value = data.id;
+          harga.value = data.harga;
+          jumlah.value = data.jumlah;
+          notif.innerHTML = "";
+        }
+      })
+
+      document.addEventListener('click', async function(e){
+  		let idStok = e.target.dataset.id;
+        if (e.target.classList.contains('btn-hapus')) {
+          let status = confirm('Hapus stok?');
+          if (status == true) {
+            await mf.deleteData(`/api/stok/delete/${idStok}`);
+            loadData();
+          }
+        }
+      })
+
+      btnSimpan.addEventListener('click',async function(){
+        let modalForm = document.getElementById('modal-form');
+        let data = new FormData(modalForm);
+        let result = await mf.postData(modalForm.action,data,'loading');
+        if (result.status == true) {
+          loadData();
+          $('#exampleModalCenter').modal('hide');
+        }else{
+          notif.innerHTML = "";
+          for (var i = 0; i < result.messages.length; i++) {
+            notif.innerHTML += `<div class="alert alert-danger">${result.messages[i]}</div>`;
+          }
+        }
+      })
+
+    </script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

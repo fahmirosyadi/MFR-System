@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title" th:text="${submenu}"></h4>
+                      <form th:object="${setting}" th:action="@{'/setting'}" method="post">
+                     	  <div id="notif"></div>
+			              <input type="hidden" class="form-control" th:field="*{id}">
+			              <div class="form-group">
+			                <label for="perusahaan">Nama Perusahaan</label>
+							<input type="text" class="form-control" name="perusahaan" id="perusahaan" th:field="*{namaPerusahaan}" placeholder="Nama Perusahaan">
+			              </div>
+			              <div class="form-group">
+                              <label for="tanggalBerdiri">Tanggal Berdiri</label>
+                              <input type="date" class="form-control" id="tanggalBerdiri" placeholder="Tanggal Berdiri" th:field="*{tanggalBerdiri}">
+                          </div>
+			              <div class="form-group">
+			                <label for="akhirPeriode">Akhir Periode</label>
+							<select class="form-control" th:field="*{akhirPeriode}">
+								<option th:text="Januari" th:value="1"></option>
+								<option th:text="Februari" th:value="2"></option>
+								<option th:text="Maret" th:value="3"></option>
+								<option th:text="April" th:value="4"></option>
+								<option th:text="Mei" th:value="5"></option>
+								<option th:text="Juni" th:value="6"></option>
+								<option th:text="Juli" th:value="7"></option>
+								<option th:text="Agustus" th:value="8"></option>
+								<option th:text="September" th:value="9"></option>
+								<option th:text="Oktober" th:value="10"></option>
+								<option th:text="November" th:value="11"></option>
+								<option th:text="Desember" th:value="12"></option>
+							</select>
+			              </div>
+			              <button class="btn btn-primary">Simpan</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script th:src="@{'/treeview2/dist/jstree.min.js'}"></script>
+
+    
+    <!-- End custom js for this page -->
+  </body>
+</html>

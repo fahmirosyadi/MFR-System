@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  postgres: 
+    container_name: postgres
+    image: postgres:11.11
+    ports:
+      - 5435:5432
+    networks:
+      - sia_network
+    environment:
+      - POSTGRES_DB=sia-db
+      - POSTGRES_PASSWORD=postgres
+  sia_docker: 
+    container_name: sia_docker
+    image: spring-boot/sia:1.0.0
+    ports:
+      - 9092:9090
+    networks:
+      - sia_network
+    depends_on:
+      - postgres
+    environment:
+      - SIA_DB_HOST=postgres
+      - SIA_DB_PORT=5432
+
+networks:
+  sia_network:
+    name: sia_network

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    	<form class="forms-sample" method="post" th:action="@{'/api/persediaan'}" id="modal-form">
+	      <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	          </div>
+	          <div class="modal-body">
+	          	<div id="notif"></div>
+	          	<input type="hidden" id="id" name="id">
+	            <div class="form-group">
+	                <label for="barang">Nama Barang</label>
+	                <input type="text" class="form-control" id="barang" placeholder="Barang" name="barang">
+	            </div>
+	            <div class="form-group">
+	                <label for="rek-hpp">Rekening HPP</label>
+	                <select class="form-control" id="rek-hpp" name="rekHpp"></select>
+	            </div>
+	            <div class="form-group">
+	                <label for="rek-penjualan">Rekening Penjualan</label>
+	                <select class="form-control" id="rek-penjualan" name="rekPenjualan"></select>
+	            </div>
+	            <div class="form-group">
+	                <label for="rek-inventory">Rekening Inventory</label>
+	                <select class="form-control" id="rek-inventory" name="rekInventory"></select>
+	            </div>
+	          </div>
+	          <div class="modal-footer">
+	          	<img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+	            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	            <button type="button" id="btn-simpan" class="btn btn-primary">Save</button>
+	          </div>
+	        </div>
+	      </div>
+    	</form>
+    </div>
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Persediaan</h4>
+                    <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#exampleModalCenter" id="btn-tambah">
+                      Tambah Data
+                    </button>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                          	<th>No</th>
+                            <th>Nama Barang</th>
+                            <th>Rekening HPP</th>
+                            <th>Rekening Penjualan</th>
+                            <th>Rekening Inventory</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script type="text/javascript">
+      let mf = new MyFetch();
+      let id = document.getElementById('id');
+      let barang = document.getElementById('barang');
+      let rekHpp = document.getElementById('rek-hpp');
+      let rekPenjualan = document.getElementById('rek-penjualan');
+      let rekInventory = document.getElementById('rek-inventory');
+      let btnTambah = document.getElementById('btn-tambah');
+      let btnSimpan = document.getElementById('btn-simpan');
+      let notif = document.getElementById('notif');
+
+      function isi(data){
+        let tbody = document.getElementById('tbody');
+        tbody.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          	tbody.innerHTML += `
+            <tr>
+              <td>${i + 1}</td>	
+              <td>${data[i].barang}</td>
+              <td>${data[i].rekHPP}</td>
+              <td>${data[i].rekPenjualan}</td>
+              <td>${data[i].rekInventory}</td>
+              <td>
+                <a href="/stok/${data[i].id}" class="badge badge-success btn-detail" data-id="${data[i].id}" id="btn-detail">Stok</a>
+                <label class="badge badge-warning btn-edit" data-id="${data[i].id}" id="btn-edit" data-toggle="modal" data-target="#exampleModalCenter">Edit</label>
+                <label class="badge badge-danger btn-hapus" id="btn-hapus" data-id="${data[i].id}">Hapus</label>
+              </td>
+            </tr>
+          	`;
+        }
+      }
+      async function loadData(){
+        let data = await mf.getData("/api/persediaan");
+        isi(data.data);
+      }
+
+      async function isiRekening(){
+        let rek = await mf.getData('/api/rekening','loading');
+        rek = rek.data;
+        rekHpp.innerHTML = "";
+        for (var i = 0; i < rek.length; i++) {
+        	if (rek[i].isHeader == false) {
+	        	rekHpp.innerHTML += `
+	        		<option value="${rek[i].id}">${rek[i].nama}</option>
+	        	`;
+        	}
+        }
+        rekPenjualan.innerHTML = rekHpp.innerHTML;
+        rekInventory.innerHTML = rekHpp.innerHTML;
+      }
+
+      btnTambah.addEventListener('click',function() {
+      	id.value = "";
+        barang.value = "";
+        notif.innerHTML = "";
+        isiRekening();
+      })
+
+      document.addEventListener('click', async function(e){
+        if (e.target.classList.contains('btn-edit')) {
+          let idPersediaan = e.target.dataset.id;
+          let data = await mf.getData(`/api/persediaan/${idPersediaan}`);
+          data = data.data;
+          id.value = data.id;
+          barang.value = data.barang;
+          rekHpp.value = data.rekHPP;
+          rekPenjualan.value = data.rekPenjualan;
+          rekInventory.value = data.rekInventory;
+          notif.innerHTML = "";
+        }
+      })
+      
+
+      document.addEventListener('click', async function(e){
+  		let idPersediaan = e.target.dataset.id;
+        if (e.target.classList.contains('btn-hapus')) {
+          let status = confirm('Hapus persediaan?');
+          if (status == true) {
+            await mf.deleteData(`/api/persediaan/delete/${idPersediaan}`);
+            loadData();
+          }
+        }
+      })
+
+      btnSimpan.addEventListener('click',async function(){
+        let modalForm = document.getElementById('modal-form');
+        let data = new FormData(modalForm);
+        let result = await mf.postData(modalForm.action,data,'loading');
+        if (result.status == true) {
+          loadData();
+          $('#exampleModalCenter').modal('hide');
+        }else{
+          notif.innerHTML = "";
+          for (var i = 0; i < result.messages.length; i++) {
+            notif.innerHTML += `<div class="alert alert-danger">${result.messages[i]}</div>`;
+          }
+        }
+      })
+
+      loadData();
+      isiRekening();
+
+    </script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

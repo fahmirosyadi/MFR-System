@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    	<form class="forms-sample" method="post" th:action="@{'/api/pembelian'}" id="modal-form">
+	      <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	          </div>
+	          <div class="modal-body">
+	          	<div id="notif"></div>
+	          	<input type="hidden" id="id" name="id">
+	            <div class="form-group">
+	                <label for="faktur">No Faktur</label>
+	                <input type="text" class="form-control" id="faktur" placeholder="No Faktur" name="faktur">
+	            </div>
+              <div class="form-group">
+                  <label for="tanggal">Tanggal</label>
+                  <input type="text" class="form-control" id="tanggal" placeholder="Tanggal" name="tanggal">
+              </div>
+              <div class="form-group">
+                  <label for="rekening">Rekening</label>
+                  <select class="form-control" name="rekening" id="rekening">
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="supplier">Supplier</label>
+                  <select class="form-control" name="supplier" id="supplier">
+                  </select>
+              </div>
+	          </div>
+	          <div class="modal-footer">
+	          	<img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+	            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	            <button type="button" id="btn-simpan" class="btn btn-primary">Save</button>
+	          </div>
+	        </div>
+	      </div>
+    	</form>
+    </div>
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pembelian</h4>
+                    <!-- <button type="button" class="btn btn-inverse-primary" data-toggle="modal" data-target="#exampleModalCenter" id="btn-tambah">
+                      Tambah Data
+                    </button> -->
+                    <a th:href="@{'/pembelian/create'}" class="btn btn-inverse-primary" id="btn-tambah">
+                      Tambah Data
+                    </a>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                          	<th>No Faktur</th>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                            <th>Supplier</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          <tr th:each="row, a : ${pembelian}">
+                             <td th:text="${a.index + 1}"></td>  
+                             <td th:text="${row.faktur}"></td>
+                             <td th:text="${row.tanggal}"></td>
+                             <td th:text="${row.keterangan}"></td>
+                             <td th:text="${row.supplier.nama}"></td>
+                             <td>
+                               <a th:href="@{'/pembelian/edit/' + ${row.id}}" class="badge badge-warning btn-edit" id="btn-edit">Edit</a>
+                               <a th:href="@{'/pembelian/delete/' + ${row.id}}" onclick="return confirm('Hapus data?')" class="badge badge-danger btn-hapus" id="btn-hapus">Hapus</a>
+                             </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    
+    <!-- End custom js for this page -->
+  </body>
+</html>

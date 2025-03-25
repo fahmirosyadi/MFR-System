@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    	<form class="forms-sample" method="post" th:action="@{'/api/penjualan'}" id="modal-form">
+	      <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	          </div>
+	          <div class="modal-body">
+	          	<div id="notif"></div>
+	          	<input type="hidden" id="id" name="id">
+	            <div class="form-group">
+	                <label for="faktur">No Faktur</label>
+	                <input type="text" class="form-control" id="faktur" placeholder="No Faktur" name="faktur">
+	            </div>
+              <div class="form-group">
+                  <label for="tanggal">Tanggal</label>
+                  <input type="text" class="form-control" id="tanggal" placeholder="Tanggal" name="tanggal">
+              </div>
+              <div class="form-group">
+                  <label for="customer">Customer</label>
+                  <select class="form-control" name="customer" id="customer">
+                  </select>
+              </div>
+	          </div>
+	          <div class="modal-footer">
+	          	<img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+	            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	            <button type="button" id="btn-simpan" class="btn btn-primary">Save</button>
+	          </div>
+	        </div>
+	      </div>
+    	</form>
+    </div>
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Penjualan</h4>
+                    <a th:href="@{'/penjualan/create'}" class="btn btn-inverse-primary" id="btn-tambah">
+                      Tambah Data
+                    </a>
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                          	<th>No Faktur</th>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                            <th>Customer</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tbody">
+                          <tr th:each="row, a : ${penjualan}">
+                             <td th:text="${a.index + 1}"></td>  
+                             <td th:text="${row.faktur}"></td>
+                             <td th:text="${row.tanggal}"></td>
+                             <td th:text="${row.keterangan}"></td>
+                             <td th:text="${row.customer.nama}"></td>
+                             <td>
+                               <a th:href="@{'/penjualan/edit/' + ${row.id}}" class="badge badge-warning btn-edit" id="btn-edit">Edit</a>
+                               <a th:href="@{'/penjualan/delete/' + ${row.id}}" onclick="return confirm('Hapus data?')" class="badge badge-danger btn-hapus" id="btn-hapus">Hapus</a>
+                             </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script type="text/javascript">
+    //   let mf = new MyFetch();
+    //   let id = document.getElementById('id');
+    //   let faktur = document.getElementById('faktur');
+    //   let tanggal = document.getElementById('tanggal');
+    //   let customer = document.getElementById('customer');
+    //   let btnTambah = document.getElementById('btn-tambah');
+    //   let btnSimpan = document.getElementById('btn-simpan');
+    //   let notif = document.getElementById('notif');
+
+    //   function isi(data){
+    //     let tbody = document.getElementById('tbody');
+    //     tbody.innerHTML = "";
+    //     for (var i = 0; i < data.length; i++) {
+    //       	tbody.innerHTML += `
+    //         <tr>
+    //           <td>${i + 1}</td>	
+    //           <td>${data[i].faktur}</td>
+    //           <td>${data[i].tanggal}</td>
+    //           <td>${data[i].customer}</td>
+    //           <td>
+    //             <label class="badge badge-warning btn-edit" data-id="${data[i].id}" id="btn-edit" data-toggle="modal" data-target="#exampleModalCenter">Edit</label>
+    //             <label class="badge badge-danger btn-hapus" id="btn-hapus" data-id="${data[i].id}">Hapus</label>
+    //           </td>
+    //         </tr>
+    //       	`;
+    //     }
+    //   }
+    //   async function loadData(){
+    //     let data = await mf.getData("/api/penjualan");
+    //     isi(data.data);
+    //   }
+
+    //   async function isiRekeningAndCustomer(){
+    //     let lcustomer = await mf.getData(`/api/customer`);
+    //     lcustomer = lcustomer.data;
+    //   }
+
+    //   btnTambah.addEventListener('click',async function() {
+    //   	id.value = "";
+    //     faktur.value = "";
+    //     tanggal.value = "";
+    //     isiRekeningAndCustomer();
+    //     notif.innerHTML = "";
+    //   })
+
+    //   document.addEventListener('click', async function(e){
+    //     if (e.target.classList.contains('btn-edit')) {
+    //       let idPenjualan = e.target.dataset.id;
+    //       let data = await mf.getData(`/api/penjualan/${idPenjualan}`);
+    //       data = data.data;
+    //       id.value = data.id;
+    //       faktur.value = data.faktur;
+    //       tanggal.value = data.tanggal;
+    //       customer.value = data.customer.id;
+    //       notif.innerHTML = "";
+    //     }
+    //   })
+
+    //   document.addEventListener('click', async function(e){
+  		// let idPenjualan = e.target.dataset.id;
+    //     if (e.target.classList.contains('btn-hapus')) {
+    //       let status = confirm('Hapus penjualan?');
+    //       if (status == true) {
+    //         await mf.deleteData(`/api/penjualan/delete/${idPenjualan}`);
+    //         loadData();
+    //       }
+    //     }
+    //   })
+
+    //   btnSimpan.addEventListener('click',async function(){
+    //     let modalForm = document.getElementById('modal-form');
+    //     let data = new FormData(modalForm);
+    //     let result = await mf.postData(modalForm.action,data,'loading');
+    //     if (result.status == true) {
+    //       loadData();
+    //       $('#exampleModalCenter').modal('hide');
+    //     }else{
+    //       notif.innerHTML = "";
+    //       for (var i = 0; i < result.messages.length; i++) {
+    //         notif.innerHTML += `<div class="alert alert-danger">${result.messages[i]}</div>`;
+    //       }
+    //     }
+    //   })
+
+      // isiRekeningAndCustomer();
+
+    </script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

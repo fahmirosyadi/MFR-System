@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                      <h4 class="card-title">Jurnal</h4>
+                      <a th:href="@{'/jurnal/create'}" type="button" class="btn btn-inverse-primary" id="btn-tambah">
+	                    Tambah Data
+	                  </a>
+                      <div class="row">
+                        <div class="col-lg-0">
+                          <div id="notif"></div>
+                          <img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+                        </div>
+                        <div class="table-responsive col-lg-12">
+                       	  
+                          <table class="table table-hover table-border">
+                            <thead>
+                              <tr>
+                              	<th>No</th>
+                              	<th>Tanggal</th>
+                                <th>Rekening</th>
+                                <th>Debet</th>
+                                <th>Kredit</th>
+                                <th>Keterangan</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody" th:with="mycounter = ${counter}">
+                              <tr th:each="row, a : ${jurnalDetails}">
+                              	<td>
+                              		<label th:if="${row.jurnal.jurnalDetails[0] == row}" th:text="${mycounter.get()}"></label>
+                              	</td>
+                              	<td>
+                              		<label th:if="${row.jurnal.jurnalDetails[0] == row}" th:text="${row.jurnal.tanggal}"></label>
+                              	</td>
+                                <td th:text="${row.rekening.nama}"></td>
+                                <td>
+                                	<label class="float-right" th:if="${row.debet != 0}" th:text="${#numbers.formatInteger(row.debet,3,'COMMA')}"></label>
+                                </td>
+                                <td>
+                                	<label class="float-right" th:if="${row.kredit != 0}" th:text="${#numbers.formatInteger(row.kredit,3,'COMMA')}"></label>
+                                </td>
+                                <td>
+                                	<label th:if="${row.jurnal.jurnalDetails[0] == row}" th:text="${row.jurnal.keterangan}"></label>
+                                </td>
+                                <td>
+                                	<a th:href="@{'/' + ${row.jurnal.jenis} + '/edit/' + ${row.jurnal.id}}" class="badge badge-warning btn-edit" th:if="${row.jurnal.jurnalDetails[0] == row}" th:text="Edit"></a>
+                                	<a onclick="return confirm('Hapus data?')" th:href="@{'/' + ${row.jurnal.jenis} + '/delete/' + ${row.jurnal.id}}" class="badge badge-danger btn-hapus" th:if="${row.jurnal.jurnalDetails[0] == row}" th:text="Hapus"></a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <!-- End custom js for this page -->
+  </body>
+</html>

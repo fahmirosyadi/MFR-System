@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Barang Masuk Entry</h4>
+                    <form id="frm" th:object="${barangMasuk}" method="post" th:action="@{'/barang_masuk'}">
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div id="notif"></div>
+                          <input type="hidden" id="id" th:field="*{id}">
+                          <input type="hidden" id="createdAt" th:field="*{createdAt}">
+                          <div class="form-group">
+                              <label for="tanggal">Tanggal</label>
+                              <input type="date" class="form-control" id="tanggal" placeholder="Tanggal" th:field="*{tanggal}">
+                          </div>
+                          <div class="form-group">
+                              <label for="keterangan">Keterangan</label>
+                              <input type="text" class="form-control" id="keterangan" placeholder="Keterangan" th:field="*{keterangan}">
+                          </div>
+                          <button id="btn-simpan" class="btn btn-primary">Simpan</button>
+                          <img id="loading" style="visibility: hidden;" height="40" th:src="@{'/images/loading.gif'}">
+                        </div>
+                        <div class="table-responsive col-lg-8">
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th>Barang</th>
+                                <th>Jumlah</th>
+                                <th>Harga</th>
+                                <th>Total</th>
+                                <th>Rekening</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody">
+                              <div th:each="row, a : *{barangMasukDetails}">
+                                <tr>
+                                  <input type="hidden" th:field="*{barangMasukDetails[__${a.index}__].id}">
+                                  <input type="hidden" th:field="*{barangMasukDetails[__${a.index}__].createdAt}">
+                                  <td>
+                                    <select th:field="*{barangMasukDetails[__${a.index}__].barang}" class="form-control">
+                                      <option th:each="row : ${barang}" th:text="${row.barang}" th:value="${row.id}"></option>
+                                    </select>
+                                  </td>
+                                  <td><input type="number" class="form-control" th:field="*{barangMasukDetails[__${a.index}__].jumlah}"></td>
+                                  <td><input type="number" class="form-control" th:field="*{barangMasukDetails[__${a.index}__].harga}"></td>
+                                  <td>
+                                    <input th:if="${barangMasuk.barangMasukDetails[__${a.index}__].jumlah != null}" type="text" class="form-control text-dark" readonly="" th:value="*{barangMasukDetails[__${a.index}__].total}">
+                                    <input th:if="${barangMasuk.barangMasukDetails[__${a.index}__].jumlah == null}" type="text" class="form-control text-dark" readonly="">
+                                  </td>
+                                  <td>
+                                  	<select th:field="*{barangMasukDetails[__${a.index}__].rekening}" class="form-control">
+                                      <option th:each="row : ${rekening}" th:text="${row.nama}" th:value="${row.id}"></option>
+                                    </select>
+							      </td>
+                                </tr>
+                              </div>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script type="text/javascript">
+      // let mf = new MyFetch();
+      // let btnTambah = document.getElementById('btn-tambah');
+      // let btnSimpan = document.getElementById('btn-simpan');
+      // let notif = document.getElementById('notif');
+      // let tbody = document.getElementById('tbody');
+      // let faktur = document.getElementById('faktur');
+      // let tanggal = document.getElementById('tanggal');
+      // let supplier = document.getElementById('supplier');
+      // let bayar = document.getElementById('bayar');
+      // let barang = document.getElementsByName('barang');
+      // let jumlah = document.getElementsByName('jumlah');
+      // let harga = document.getElementsByName('harga');
+      // let total = document.getElementsByName('total');
+      // let pembelian = document.getElementsByName('pembelian');
+
+      // function loadData(){
+      //   tanggal.value = "";
+      //   bayar.value = "";
+      //   faktur.value = "";
+      //   for (var i = 0; i < harga.length; i++) {
+      //      harga[i].value = "";
+      //      jumlah[i].value = "";
+      //      total[i].value = "";
+      //      pembelian[i].value = "";
+      //    } 
+      // }
+
+      // loadData();
+
+
+      // btnSimpan.addEventListener('click',async function(){
+      //   let berhasil = true;
+      //   let frm = document.getElementById('frm');
+      //   let data = new FormData(frm);
+      //   let result = await mf.postData(frm.action,data,'loading');
+      //   if (result.status == true) {
+      //     let idPembelian = await mf.getData('/api/pembelian/last','loading');
+      //     idPembelian = idPembelian.data.id;
+      //     for (var i = 0; i < pembelian.length; i++) {
+      //       pembelian[i].value = idPembelian;
+      //     }
+      //     let frmDetail = document.getElementsByName('frm-detail');
+      //     console.log(frmDetail)
+      //     for (var i = 0; i < frmDetail.length; i++) {
+      //       let dataDetail = new FormData(frmDetail[i]);
+      //       if (dataDetail.get('harga') != "") {
+      //         let resultDetail = await mf.postData(frmDetail[i].action,dataDetail,'loading');
+      //         if (resultDetail.status != true) {
+      //           berhasil = false;
+      //         }  
+      //       }
+      //     }   
+      //   }else{
+      //     berhasil == false;
+      //   }
+      //   if (berhasil == true) {
+      //     loadData();
+      //   }else{
+      //     notif.innerHTML = "";
+      //     for (var i = 0; i < result.messages.length; i++) {
+      //       notif.innerHTML += `<div class="alert alert-danger">${result.messages[i]}</div>`;
+      //     }
+      //   }
+      // })
+    </script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

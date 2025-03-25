@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="corona/layout::head"></head>
+  <body>
+    <!-- Button trigger modal -->
+
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="corona/layout::sidebar"></nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row" th:replace="corona/layout::navbar"></nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header" th:replace="corona/layout::page-header"></div>
+            <div class="row">
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Rekening</h4>
+                      <form th:object="${dataUser}" th:action="@{'/user'}" method="post">
+                     	  <div id="notif"></div>
+			              <input type="hidden" class="form-control" th:field="*{id}" placeholder="id">
+			              <div class="form-group">
+			                <label for="rekening">Username</label>
+			                <input type="text" class="form-control" th:field="*{username}" placeholder="Username">
+			              </div>
+			              <div class="form-group">
+			                <label for="jenis">Password</label>
+			                <input type="text" class="form-control" th:field="*{pass}" placeholder="Password">
+			              </div>
+			              <div class="form-group">
+			                <label for="jenis">Role</label>
+			                <input type="hidden" th:field="*{roleUser[0].id}">
+			                <select class="form-control" th:field="*{roleUser[0].role}">
+			                	<option th:each="role : ${roles}" th:value="${role.role}" th:text="${role.role}"></option>
+			                </select>
+			              </div>
+			              <div class="form-group">
+			                <label for="active">Active</label>
+			                <select class="form-control" th:field="*{active}">
+			                	<option th:text="${false}" th:value="${false}"></option>
+			                	<option th:text="${true}" th:value="${true}"></option>
+			                </select>
+			              </div>
+			              <button class="btn btn-primary">Simpan</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer" th:replace="corona/layout::footer"></footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script th:src="@{'/corona/vendors/js/vendor.bundle.base.js'}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <div th:replace="corona/layout::inject-js"></div>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script th:src="@{'/treeview2/dist/jstree.min.js'}"></script>
+
+    
+    <!-- End custom js for this page -->
+  </body>
+</html>
