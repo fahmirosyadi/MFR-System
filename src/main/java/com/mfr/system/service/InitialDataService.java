@@ -12,9 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mfr.system.entity.Genre;
 import com.mfr.system.entity.Menu;
 import com.mfr.system.entity.Role;
 import com.mfr.system.entity.User;
+import com.mfr.system.repository.GenreRepository;
 import com.mfr.system.repository.MenuRepository;
 import com.mfr.system.repository.RoleRepository;
 import com.mfr.system.repository.UserRepository;
@@ -35,6 +37,8 @@ public class InitialDataService {
 	MenuRepository mr;
 	@Autowired
 	BCryptPasswordEncoder encoder;
+	@Autowired
+	GenreRepository gr;
 
 	@EventListener
 	public void initialMenu (ApplicationReadyEvent event) {
@@ -134,6 +138,12 @@ public class InitialDataService {
 		logger.info("User Initialization");
 	}
 	
-	
+	public void initialGenre(){
+		String[] genres = {"POP", "ROCK", "JAZZ", "R&B", "LATIN", "DANGDUT"};
+		for(int i = 0; i < genres.length; i++){
+			Genre genre = new Genre(genres[i]);
+			this.gr.save(genre);
+		}
+	}
 
 }

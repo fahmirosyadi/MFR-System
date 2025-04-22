@@ -9,6 +9,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mfr.system.config.View;
 import com.mfr.system.config.ValidGroup.Update;
@@ -43,6 +44,7 @@ public abstract class AbstractEntity {
 	}
 	
 	@Transient
+	@JsonIgnore
 	public String getFindLikeQuery() {
 		String result = "select * from " + this.getClass().getName() + " where ";
 		int count = 0;
