@@ -55,22 +55,6 @@ public class InitialDataService {
 			Menu role = new Menu("Role","role","fa-table",1,dataMaster);
 			Menu user = new Menu("User","user","fa-table",2,dataMaster);
 			Menu authority = new Menu("Authority","authority","fa-table",3,dataMaster);
-			Menu rekening = new Menu("Rekening","rekening","fa-table",4,dataMaster);
-			Menu supplier = new Menu("Supplier","supplier","fa-table",5,dataMaster);
-			Menu customer = new Menu("Customer","customer","fa-table",6,dataMaster);
-			Menu persediaan = new Menu("Persediaan","persediaan","fa-table",7,dataMaster);
-			Menu pajak = new Menu("Pajak","pajak","fa-table",8,dataMaster);
-			
-			Menu jurnalUmum = new Menu("Jurnal Umum","jurnal-umum","fa-table",1,transaksi);
-			Menu pembelian = new Menu("Pembelian","pembelian","fa-table",2,transaksi);
-			Menu penjualan = new Menu("Penjualan","penjualan","fa-table",3,transaksi);
-			Menu penyesuaianPersediaan = new Menu("Penyesuaian Persediaan","penyesuaian-persediaan","fa-table",4,transaksi);
-			Menu pembayaranUtang = new Menu("Pembayaran Utang","pembayaran-utang","fa-table",5,transaksi);
-			Menu pembayaranPiutang = new Menu("Pembayaran Piutang","pembayaran-piutang","fa-table",6,transaksi);
-			
-			Menu neraca = new Menu("Neraca","neraca","fa-table",1,laporan);
-			Menu labarugi = new Menu("Laba Rugi","laba-rugi","fa-table",2,laporan);
-			Menu bukuBesar = new Menu("Buku Besar","buku-besar","fa-table",3,laporan);
 			
 			menuList.add(dashboard);
 			menuList.add(dataMaster);
