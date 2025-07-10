@@ -10,6 +10,6 @@ import com.mfr.system.entity.Genre;
 public interface GenreRepository extends CommonRepository<Genre, Long> {
 	public Genre findByGenre(String genre);
 	@Override
-	@Query(value = "select * from genre where genre like %:s%", nativeQuery = true)
+	@Query(value = "select * from genre where genre like CONCAT('%', :s, '%')", nativeQuery = true)
 	public Page<Genre> findLike(@Param("s") String s, Pageable pageable);
 }

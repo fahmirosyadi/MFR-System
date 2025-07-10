@@ -10,6 +10,6 @@ import com.mfr.system.entity.Song;
 public interface SongRepository extends CommonRepository<Song, Long> {
 	public Song findBySong(String song);
 	@Override
-	@Query(value = "select * from song where Song like %:s%", nativeQuery = true)
+	@Query(value = "select * from song where Song like CONCAT('%', :s, '%')", nativeQuery = true)
 	public Page<Song> findLike(@Param("s") String s, Pageable pageable);
 }
