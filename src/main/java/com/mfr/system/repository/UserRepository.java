@@ -20,6 +20,6 @@ public interface UserRepository extends CommonRepository<User, Long> {
 	
 	Optional<User> findByUsername(String username, Sort sort);
 	
-	@Query(value = "select * from users where username like %:s%", nativeQuery = true)
+	@Query(value = "select * from users where username like CONCAT('%', :s, '%')", nativeQuery = true)
 	public Page<User> findLike(@Param("s") String s, Pageable pageable);
 }

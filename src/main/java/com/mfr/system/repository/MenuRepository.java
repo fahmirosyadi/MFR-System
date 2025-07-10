@@ -13,11 +13,11 @@ import com.mfr.system.entity.Menu;
 @Repository
 public interface MenuRepository extends CommonRepository<Menu, Long>{
 
-	@Query(value = "select * from menu m where (name like %:s% or url like %:s%) and parent_id is null order by sort asc", nativeQuery = true)
+	@Query(value = "select * from menu m where (name like concat('%', :s, '%') or url like concat('%', :s, '%')) and parent_id is null order by sort asc", nativeQuery = true)
 	public List<Menu> findLike(@Param("s") String s);
 	
 	@Override
-	@Query(value = "select * from menu m where (name like %:s% or url like %:s%) and parent_id is null order by sort asc", nativeQuery = true)
+	@Query(value = "select * from menu m where (name like concat('%', :s, '%') or url like concat('%', :s, '%')) and parent_id is null order by sort asc", nativeQuery = true)
 	public Page<Menu> findLike(@Param("s") String s, Pageable pageable);
 	
 	public List<Menu> findByParent(Menu parent);
