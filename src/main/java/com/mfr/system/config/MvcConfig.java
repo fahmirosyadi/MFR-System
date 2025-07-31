@@ -17,7 +17,6 @@ public class MvcConfig implements WebMvcConfigurer{
 		.setCachePeriod(3600)
 		.resourceChain(true)
 		.addResolver(new PathResourceResolver());
-		
 	}
 	
 }

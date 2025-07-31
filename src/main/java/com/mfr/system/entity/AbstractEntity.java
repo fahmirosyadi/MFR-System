@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.mfr.system.config.View;
 import com.mfr.system.config.ValidGroup.Update;
 import com.mfr.system.config.View.All;
-import com.mfr.system.config.View.Detail;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
