@@ -34,6 +34,7 @@ public class Song extends AbstractEntity{
 	private String song;
 	private Integer highestPitch;
 	private Integer lowestPitch;
+	private String chord;
 	@ManyToOne
 	private Genre genre;
 
