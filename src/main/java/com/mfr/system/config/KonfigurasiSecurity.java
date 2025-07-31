@@ -50,7 +50,7 @@ public class KonfigurasiSecurity extends WebSecurityConfigurerAdapter {
 			
 			.antMatchers("/","/api/user/login","/api/user/count","/api/user/register","/api/user/resetPassword","/api/role/**","/api/user/**","/api/rekening/**","/api/supplier/**","/api/customer/**").permitAll()
 //			.antMatchers("/user","/api/user","/api/user/{id}").hasAnyRole("ADMIN")
-			.antMatchers("/api/menu/**").authenticated()
+			// .antMatchers("/api/menu/**").authenticated()
 //			.antMatchers("").hasAnyRole("ADMIN")
 ////			.antMatchers("/api/persediaan/**").hasAnyRole("INVENTORY","ADMIN")
 //			.anyRequest().authenticated()
@@ -74,6 +74,4 @@ public class KonfigurasiSecurity extends WebSecurityConfigurerAdapter {
 		return repository;
 	}
 	
-	
-
 }

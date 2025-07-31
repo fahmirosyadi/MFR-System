@@ -66,9 +66,9 @@ public class InitialDataService {
 	}
 	
 	public void initialRole() {
-		Role r = new Role(Long.valueOf(1),"OWNER");
 		List<Role> rList = new ArrayList<>();
-		rList.add(r);
+		rList.add(new Role(Long.valueOf(1),"admin"));
+		rList.add(new Role(Long.valueOf(1),"tenant_manager"));
 		this.rr.saveAll(rList);
 
 		logger.info("Role Initialization");
@@ -84,7 +84,6 @@ public class InitialDataService {
 		Menu dataMaster = this.mr.findByName("Data Master");
 		
 		Role r = this.rr.findAll().get(0);
-		System.out.println("Role : " + r.getRole());
 		List<Role> rList = new ArrayList<>();
 		rList.add(r);
 		if(rList.size() > 0) {
@@ -103,12 +102,12 @@ public class InitialDataService {
 	
 	public void initialUser() {
 		User u = new User();
-		u.setUsername("user_owner");
-		u.setNama("USER OWNER");
-		u.setEmail("user_o@mailinator.com");
+		u.setUsername("admin");
+		u.setNama("Admin");
+		u.setEmail("mfr_admin@mailinator.com");
 		u.setEnabled(true);
 		u.setPassword(encoder.encode(""));
-		u.getRole().add(this.rr.findByRole("OWNER"));
+		u.getRole().add(this.rr.findByRole("admin"));
 		
 		List<User> uList = new ArrayList<>();
 		uList.add(u);
