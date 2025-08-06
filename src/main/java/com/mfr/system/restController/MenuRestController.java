@@ -40,7 +40,7 @@ public class MenuRestController  extends AbstractRestController<Menu>{
 	@Autowired
 	RoleRepository rr;
 
-	@GetMapping("")
+	@GetMapping("/user")
 	@Override
 	public ResponseEntity<Object> index(Principal p){		
 		System.out.println("Tess");
@@ -52,6 +52,27 @@ public class MenuRestController  extends AbstractRestController<Menu>{
 			obj.put("messages", "Data berhasil diambil");
 			obj.put("data", user.get().getRootMenu());
 		}
+			
+		return new ResponseEntity<>(obj,HttpStatus.OK);
+	}
+
+	@GetMapping("")	
+	public ResponseEntity<Object> toList(){
+		Map<String,Object> obj = new HashMap<String, Object>();
+		obj.put("status", true);
+		obj.put("messages", "Data berhasil diambil");
+		this.mr.findByParent(null);
+		obj.put("data", TreeUtil.toList(this.mr.findByParent(null), 0));
+		return new ResponseEntity<>(obj,HttpStatus.OK);
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<Object> search(@RequestParam(name = "search", defaultValue = "") String search, Principal p){		
+		Map<String,Object> obj = new HashMap<String, Object>();
+		List<Menu> data = mr.findLike(search);	
+		obj.put("status", true);
+		obj.put("messages", "Data berhasil diambil");
+		obj.put("data", data);
 			
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
@@ -71,27 +92,6 @@ public class MenuRestController  extends AbstractRestController<Menu>{
 		}
 		System.out.println("Menu role : " + existing.getRole().size());
 		return super.save(existing, bindingResult);
-	}
-	
-	@GetMapping("/search")
-	public ResponseEntity<Object> search(@RequestParam(name = "search", defaultValue = "") String search, Principal p){		
-		Map<String,Object> obj = new HashMap<String, Object>();
-		List<Menu> data = mr.findLike(search);	
-		obj.put("status", true);
-		obj.put("messages", "Data berhasil diambil");
-		obj.put("data", data);
-			
-		return new ResponseEntity<>(obj,HttpStatus.OK);
-	}
-	
-	@GetMapping("/toList")	
-	public ResponseEntity<Object> toList(){
-		Map<String,Object> obj = new HashMap<String, Object>();
-		obj.put("status", true);
-		obj.put("messages", "Data berhasil diambil");
-		this.mr.findByParent(null);
-		obj.put("data", TreeUtil.toList(this.mr.findByParent(null), 0));
-		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 
 	@Override

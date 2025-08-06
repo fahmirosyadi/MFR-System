@@ -13,9 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Sort;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -27,7 +24,7 @@ import lombok.Setter;
 @Setter @Getter 
 @AllArgsConstructor @NoArgsConstructor
 @Entity
-public class Menu  extends AbstractEntity implements Tree{
+public class Menu  extends AbstractEntity implements Tree<Menu>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
