@@ -56,7 +56,7 @@ public class MenuRestController  extends AbstractRestController<Menu>{
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 
-	@GetMapping("")	
+	@GetMapping("/search")	
 	public ResponseEntity<Object> toList(){
 		Map<String,Object> obj = new HashMap<String, Object>();
 		obj.put("status", true);
@@ -66,7 +66,7 @@ public class MenuRestController  extends AbstractRestController<Menu>{
 		return new ResponseEntity<>(obj,HttpStatus.OK);
 	}
 
-	@GetMapping("/search")
+	@GetMapping("")
 	public ResponseEntity<Object> search(@RequestParam(name = "search", defaultValue = "") String search, Principal p){		
 		Map<String,Object> obj = new HashMap<String, Object>();
 		List<Menu> data = mr.findLike(search);	
