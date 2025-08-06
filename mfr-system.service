@@ -1,0 +1,11 @@
+[Unit]
+Description=MFR System
+After=network.target
+
+[Service]
+User=fahmirosyadi
+ExecStart=/usr/bin/java -jar /opt/mfr-system/mfr-system.jar
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
